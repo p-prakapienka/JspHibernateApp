@@ -35,6 +35,9 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
+        if (true) {}
+        if (true) {}
+
         if (action == null) {
             List<User> users = userService.getAll();
             if (users == null) {
