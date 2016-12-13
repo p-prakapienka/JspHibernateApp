@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="by.prakapienka.**.dao.jpa"/>
+
+    <context:component-scan base-package="by.prakapienka.**.service"/>
+
+    <jdbc:initialize-database data-source="dataSource" enabled="true">
+        <jdbc:script location="classpath:initDB.sql"/>
+        <jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>
+    </jdbc:initialize-database>
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/al1_userorders"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="by.prakapienka.**.model"/>
+
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="true"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="true"/>
+            </map>
+        </property>
+
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                  <property name="showSql" value="true"/>
+            </bean>
+        </property>
+    </bean>
+
+    <tx:annotation-driven/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+</beans>
