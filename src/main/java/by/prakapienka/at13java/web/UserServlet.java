@@ -37,6 +37,8 @@ public class UserServlet extends HttpServlet {
 
         if (true) {}
         if (true) {}
+        if (true) {}
+        if (true) {}
 
         if (action == null) {
             List<User> users = userService.getAll();
