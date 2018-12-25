@@ -11,18 +11,23 @@
 
     <context:component-scan base-package="by.prakapienka.**.service"/>
 
-    <jdbc:initialize-database data-source="dataSource" enabled="true">
-        <jdbc:script location="classpath:initDB.sql"/>
-        <jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>
-    </jdbc:initialize-database>
+    <!--<jdbc:initialize-database data-source="dataSource" enabled="true">-->
+        <!--<jdbc:script location="classpath:initDB.sql"/>-->
+        <!--<jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>-->
+    <!--</jdbc:initialize-database>-->
 
-    <bean id="dataSource"
+    <!--<bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/al1_userorders"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
-    </bean>
+    </bean>-->
+
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:initDB.sql" />
+        <jdbc:script location="classpath:populateDB.sql" />
+    </jdbc:embedded-database>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
