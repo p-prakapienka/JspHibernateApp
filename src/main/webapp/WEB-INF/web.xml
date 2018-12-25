@@ -5,43 +5,57 @@
          version="3.1">
     <display-name>JspHibernateApp</display-name>
 
-    <servlet>
-        <servlet-name>userServlet</servlet-name>
-        <servlet-class>by.prakapienka.at13java.web.UserServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>userServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>userServlet</servlet-name>-->
+        <!--<servlet-class>by.prakapienka.at13java.web.UserServlet</servlet-class>-->
+        <!--<load-on-startup>0</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>userServlet</servlet-name>-->
+        <!--<url-pattern>/users</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>orderServlet</servlet-name>-->
+        <!--<servlet-class>by.prakapienka.at13java.web.OrderServlet</servlet-class>-->
+        <!--<load-on-startup>0</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>orderServlet</servlet-name>-->
+        <!--<url-pattern>/orders</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>productServlet</servlet-name>-->
+        <!--<servlet-class>by.prakapienka.at13java.web.ProductServlet</servlet-class>-->
+        <!--<load-on-startup>0</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>productServlet</servlet-name>-->
+        <!--<url-pattern>/products</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+        <!--<servlet-name>itemServlet</servlet-name>-->
+        <!--<servlet-class>by.prakapienka.at13java.web.ItemServlet</servlet-class>-->
+        <!--<load-on-startup>0</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>itemServlet</servlet-name>-->
+        <!--<url-pattern>/items</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
-        <servlet-name>orderServlet</servlet-name>
-        <servlet-class>by.prakapienka.at13java.web.OrderServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
+        <servlet-name>vaadinServlet</servlet-name>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>by.prakapienka.at13java.web.ShopAppUI</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>orderServlet</servlet-name>
-        <url-pattern>/orders</url-pattern>
+        <servlet-name>vaadinServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>productServlet</servlet-name>
-        <servlet-class>by.prakapienka.at13java.web.ProductServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>productServlet</servlet-name>
-        <url-pattern>/products</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>itemServlet</servlet-name>
-        <servlet-class>by.prakapienka.at13java.web.ItemServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>itemServlet</servlet-name>
-        <url-pattern>/items</url-pattern>
-    </servlet-mapping>
 </web-app>
