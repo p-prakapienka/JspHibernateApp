@@ -5,11 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:annotation-config/>
-
-    <context:component-scan base-package="by.prakapienka.**.dao.jpa"/>
-
-    <context:component-scan base-package="by.prakapienka.**.service"/>
+    <context:component-scan base-package="by.prakapienka.at13java"/>
 
     <!--<jdbc:initialize-database data-source="dataSource" enabled="true">-->
         <!--<jdbc:script location="classpath:initDB.sql"/>-->
