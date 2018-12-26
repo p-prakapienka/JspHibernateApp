@@ -1,6 +1,6 @@
 package by.prakapienka.at13java.web.view;
 
-import by.prakapienka.at13java.service.UserService;
+import by.prakapienka.at13java.service.ProductService;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -10,19 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class UsersView extends VerticalLayout implements View {
+public class ProductsView extends VerticalLayout implements View {
 
-    public static final String VIEW_NAME = "usersView";
+    public static final String VIEW_NAME = "productsView";
 
     private Navigator navigator;
 
     private Grid grid;
 
-    private UserService userService;
+    private ProductService productService;
 
     @Autowired
-    public UsersView(UserService userService) {
-        this.userService = userService;
+    public ProductsView(final ProductService productService) {
+        this.productService = productService;
 
         this.setSizeFull();
 
@@ -43,7 +43,7 @@ public class UsersView extends VerticalLayout implements View {
 
     private void fillData() {
         grid.getContainerDataSource().removeAllItems();
-        userService.getAll().forEach(u -> grid.addRow(u.getId(), u.getName()));
+        productService.getAll().forEach(p -> grid.addRow(p.getId(), p.getName()));
     }
 
 }
