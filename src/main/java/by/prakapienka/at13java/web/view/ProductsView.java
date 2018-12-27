@@ -1,6 +1,8 @@
 package by.prakapienka.at13java.web.view;
 
+import by.prakapienka.at13java.model.OrderItem;
 import by.prakapienka.at13java.service.ProductService;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -15,8 +17,8 @@ public class ProductsView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "productsView";
 
     private Navigator navigator;
-
     private Grid grid;
+    private BeanItemContainer<OrderItem> beanItemContainer;
 
     private ProductService productService;
 
@@ -26,9 +28,10 @@ public class ProductsView extends VerticalLayout implements View {
 
         this.setSizeFull();
 
-        this.grid = new Grid();
-        grid.addColumn("id", Integer.class);
-        grid.addColumn("name", String.class);
+        this.beanItemContainer = new BeanItemContainer<>(OrderItem.class);
+        this.beanItemContainer.removeContainerProperty("new");
+
+        this.grid = new Grid(this.beanItemContainer);
         addComponent(grid);
     }
 
@@ -42,8 +45,8 @@ public class ProductsView extends VerticalLayout implements View {
     }
 
     private void fillData() {
-        grid.getContainerDataSource().removeAllItems();
-        productService.getAll().forEach(p -> grid.addRow(p.getId(), p.getName()));
+        this.beanItemContainer.removeAllItems();
+        productService.getAll().forEach(beanItemContainer::addBean);
     }
 
 }
