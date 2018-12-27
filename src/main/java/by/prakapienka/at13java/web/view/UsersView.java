@@ -3,7 +3,6 @@ package by.prakapienka.at13java.web.view;
 import by.prakapienka.at13java.model.User;
 import by.prakapienka.at13java.service.UserService;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -17,7 +16,6 @@ public class UsersView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "usersView";
 
-    private Navigator navigator;
     private Grid grid;
     private BeanItemContainer<User> beanItemContainer;
     private Button createBtn;
@@ -45,10 +43,6 @@ public class UsersView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         fillData();
-    }
-
-    public void setNavigator(final Navigator navigator) {
-        this.navigator = navigator;
     }
 
     private void fillData() {

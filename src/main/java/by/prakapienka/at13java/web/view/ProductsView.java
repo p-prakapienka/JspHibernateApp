@@ -3,7 +3,6 @@ package by.prakapienka.at13java.web.view;
 import by.prakapienka.at13java.model.OrderItem;
 import by.prakapienka.at13java.service.ProductService;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Grid;
@@ -16,7 +15,6 @@ public class ProductsView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "productsView";
 
-    private Navigator navigator;
     private Grid grid;
     private BeanItemContainer<OrderItem> beanItemContainer;
 
@@ -38,10 +36,6 @@ public class ProductsView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         fillData();
-    }
-
-    public void setNavigator(final Navigator navigator) {
-        this.navigator = navigator;
     }
 
     private void fillData() {
