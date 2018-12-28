@@ -2,11 +2,11 @@ package by.prakapienka.at13java.web.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
-import org.springframework.stereotype.Controller;
 
-@Controller
+@SpringView(name = StartView.VIEW_NAME)
 public class StartView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "";

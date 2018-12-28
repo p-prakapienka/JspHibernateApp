@@ -5,12 +5,12 @@ import by.prakapienka.at13java.service.ProductService;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-@Controller
+@SpringView(name = ProductsView.VIEW_NAME)
 public class ProductsView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "productsView";

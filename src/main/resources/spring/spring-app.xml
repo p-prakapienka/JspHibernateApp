@@ -7,6 +7,9 @@
 
     <context:component-scan base-package="by.prakapienka.at13java"/>
 
+    <!-- Vaadin -->
+    <context:component-scan base-package="com.vaadin.spring"/>
+
     <!--<jdbc:initialize-database data-source="dataSource" enabled="true">-->
         <!--<jdbc:script location="classpath:initDB.sql"/>-->
         <!--<jdbc:script encoding="utf-8" location="classpath:populateDB.sql"/>-->
