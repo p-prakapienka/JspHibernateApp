@@ -2,8 +2,8 @@ package by.prakapienka.at13java.web;
 
 import by.prakapienka.at13java.model.OrderItem;
 import by.prakapienka.at13java.service.ProductService;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,19 +15,13 @@ import java.util.List;
 
 public class ProductServlet extends HttpServlet {
 
-    private ConfigurableApplicationContext applicationContext;
+    private WebApplicationContext applicationContext;
     private ProductService productService;
 
     @Override
     public void init() throws ServletException {
-        applicationContext = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        applicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
         productService = applicationContext.getBean(ProductService.class);
-    }
-
-    @Override
-    public void destroy() {
-        applicationContext.close();
-        super.destroy();
     }
 
     @Override

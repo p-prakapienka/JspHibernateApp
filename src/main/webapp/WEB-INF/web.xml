@@ -4,6 +4,15 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <display-name>JspHibernateApp</display-name>
+    
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/spring-app.xml</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>userServlet</servlet-name>
