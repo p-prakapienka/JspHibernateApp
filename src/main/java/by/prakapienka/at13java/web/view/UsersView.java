@@ -2,13 +2,19 @@ package by.prakapienka.at13java.web.view;
 
 import by.prakapienka.at13java.model.User;
 import by.prakapienka.at13java.service.UserService;
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.renderers.ClickableRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringView(name = UsersView.VIEW_NAME)
@@ -17,6 +23,7 @@ public class UsersView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "usersView";
 
     private Grid grid;
+    private GeneratedPropertyContainer propertyContainer;
     private BeanItemContainer<User> beanItemContainer;
     private Button createBtn;
 
@@ -36,7 +43,23 @@ public class UsersView extends VerticalLayout implements View {
         this.beanItemContainer.removeContainerProperty("orders");
         this.beanItemContainer.removeContainerProperty("new");
 
-        this.grid = new Grid(this.beanItemContainer);
+        this.propertyContainer = new GeneratedPropertyContainer(this.beanItemContainer);
+        this.propertyContainer.addGeneratedProperty("delete", new PropertyValueGenerator<String>() {
+            @Override
+            public String getValue(Item item, Object itemId, Object propertyId) {
+                return "Delete";
+            }
+
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
+
+        this.grid = new Grid(this.propertyContainer);
+        this.grid
+                .getColumn("delete")
+                .setRenderer(new ButtonRenderer(this::onDelete));
         addComponent(grid);
     }
 
@@ -48,6 +71,12 @@ public class UsersView extends VerticalLayout implements View {
     private void fillData() {
         beanItemContainer.removeAllItems();
         userService.getAll().forEach(beanItemContainer::addBean);
+    }
+
+    private void onDelete(ClickableRenderer.RendererClickEvent e) {
+        final User user = this.beanItemContainer.getItem(e.getItemId()).getBean();
+        this.userService.delete(user.getId());
+        this.beanItemContainer.removeItem(e.getItemId());
     }
 
 }
