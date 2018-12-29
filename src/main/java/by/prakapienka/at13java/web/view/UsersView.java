@@ -3,7 +3,6 @@ package by.prakapienka.at13java.web.view;
 import by.prakapienka.at13java.model.User;
 import by.prakapienka.at13java.service.UserService;
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
@@ -36,6 +35,7 @@ public class UsersView extends VerticalLayout implements View {
         this.setSizeFull();
 
         this.createBtn = new Button("Create", e -> {
+            getUI().getNavigator().navigateTo(EditUserView.VIEW_NAME);
         });
         addComponent(createBtn);
 
@@ -44,12 +44,21 @@ public class UsersView extends VerticalLayout implements View {
         this.beanItemContainer.removeContainerProperty("new");
 
         this.propertyContainer = new GeneratedPropertyContainer(this.beanItemContainer);
+        this.propertyContainer.addGeneratedProperty("edit", new PropertyValueGenerator<String>() {
+            @Override
+            public String getValue(Item item, Object itemId, Object propertyId) {
+                return "Edit";
+            }
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
         this.propertyContainer.addGeneratedProperty("delete", new PropertyValueGenerator<String>() {
             @Override
             public String getValue(Item item, Object itemId, Object propertyId) {
                 return "Delete";
             }
-
             @Override
             public Class<String> getType() {
                 return String.class;
@@ -60,6 +69,9 @@ public class UsersView extends VerticalLayout implements View {
         this.grid
                 .getColumn("delete")
                 .setRenderer(new ButtonRenderer(this::onDelete));
+        this.grid
+                .getColumn("edit")
+                .setRenderer(new ButtonRenderer(this::onEdit));
         addComponent(grid);
     }
 
@@ -77,6 +89,11 @@ public class UsersView extends VerticalLayout implements View {
         final User user = this.beanItemContainer.getItem(e.getItemId()).getBean();
         this.userService.delete(user.getId());
         this.beanItemContainer.removeItem(e.getItemId());
+    }
+
+    private void onEdit(ClickableRenderer.RendererClickEvent e) {
+        final User user = this.beanItemContainer.getItem(e.getItemId()).getBean();
+        getUI().getNavigator().navigateTo(EditUserView.VIEW_NAME + "/" + user.getId());
     }
 
 }
