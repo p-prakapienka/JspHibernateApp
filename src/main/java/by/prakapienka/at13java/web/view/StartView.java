@@ -4,16 +4,14 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.HorizontalLayout;
 
 @SpringView(name = StartView.VIEW_NAME)
-public class StartView extends VerticalLayout implements View {
+public class StartView extends HorizontalLayout implements View {
 
     public static final String VIEW_NAME = "";
 
     public StartView() {
-        setSizeFull();
-
         final Button usersBtn = new Button("Users", e -> {
             getUI().getNavigator().navigateTo(UsersView.VIEW_NAME);
         });
