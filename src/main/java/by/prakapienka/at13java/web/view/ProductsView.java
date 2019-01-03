@@ -9,6 +9,7 @@ import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.ButtonRenderer;
@@ -23,6 +24,7 @@ public class ProductsView extends VerticalLayout implements View {
     private Grid grid;
     private GeneratedPropertyContainer propertyContainer;
     private BeanItemContainer<OrderItem> beanItemContainer;
+    private Button createBtn;
 
     private ProductService productService;
 
@@ -30,7 +32,11 @@ public class ProductsView extends VerticalLayout implements View {
     public ProductsView(final ProductService productService) {
         this.productService = productService;
 
-        this.setSizeFull();
+        this.createBtn = new Button("Create", e -> {
+            getUI().getNavigator()
+                    .navigateTo(EditProductView.VIEW_NAME);
+        });
+        addComponent(this.createBtn);
 
         this.beanItemContainer = new BeanItemContainer<>(OrderItem.class);
         this.beanItemContainer.removeContainerProperty("new");

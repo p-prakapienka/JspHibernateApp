@@ -29,8 +29,6 @@ public class EditUserView extends FormLayout implements View {
     public EditUserView(UserService userService) {
         this.userService = userService;
 
-        this.setSizeFull();
-
         this.idField = new TextField();
         this.idField.setVisible(false);
 
