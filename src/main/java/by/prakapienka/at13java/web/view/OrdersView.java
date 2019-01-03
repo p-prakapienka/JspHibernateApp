@@ -3,14 +3,18 @@ package by.prakapienka.at13java.web.view;
 import by.prakapienka.at13java.model.Order;
 import by.prakapienka.at13java.service.OrderService;
 import by.prakapienka.at13java.web.attribute.SessionAttribute;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.renderers.ClickableRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringView(name = OrdersView.VIEW_NAME)
@@ -41,10 +45,36 @@ public class OrdersView extends VerticalLayout implements View {
         this.beanItemContainer.removeContainerProperty("user");
 
         this.propertyContainer = new GeneratedPropertyContainer(this.beanItemContainer);
-        //TODO buttons
+        this.propertyContainer.addGeneratedProperty("edit", new PropertyValueGenerator<String>() {
+            @Override
+            public String getValue(Item item, Object itemId, Object propertyId) {
+                return "Edit";
+            }
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
+        this.propertyContainer.addGeneratedProperty("delete", new PropertyValueGenerator<String>() {
+            @Override
+            public String getValue(Item item, Object itemId, Object propertyId) {
+                return "Delete";
+            }
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
 
         this.grid = new Grid(this.propertyContainer);
         this.grid.setSelectionMode(Grid.SelectionMode.NONE);
+        //TODO itemClickListener
+        this.grid
+                .getColumn("delete")
+                .setRenderer(new ButtonRenderer(this::onDelete));
+        this.grid
+                .getColumn("edit")
+                .setRenderer(new ButtonRenderer(this::onEdit));
 
         addComponent(grid);
     }
@@ -54,6 +84,18 @@ public class OrdersView extends VerticalLayout implements View {
         final int userId = Integer.parseInt(event.getParameters());
         getSession().setAttribute(SessionAttribute.USER_ID_ATTR, userId);
         this.orderService.getAll(userId).forEach(this.beanItemContainer::addBean);
+    }
+
+    private void onDelete(ClickableRenderer.RendererClickEvent e) {
+        final Order order = this.beanItemContainer.getItem(e.getItemId()).getBean();
+        this.orderService.delete(order.getId(),
+                                 (Integer) getSession().getAttribute(SessionAttribute.USER_ID_ATTR));
+        this.beanItemContainer.removeItem(e.getItemId());
+    }
+
+    private void onEdit(ClickableRenderer.RendererClickEvent e) {
+        final Order order = this.beanItemContainer.getItem(e.getItemId()).getBean();
+        getUI().getNavigator().navigateTo(EditOrderView.VIEW_NAME + "/" + order.getId());
     }
 
 }
