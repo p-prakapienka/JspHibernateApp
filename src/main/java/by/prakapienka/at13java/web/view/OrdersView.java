@@ -7,6 +7,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -68,7 +69,7 @@ public class OrdersView extends VerticalLayout implements View {
 
         this.grid = new Grid(this.propertyContainer);
         this.grid.setSelectionMode(Grid.SelectionMode.NONE);
-        //TODO itemClickListener
+        this.grid.addItemClickListener(this::onRowClick);
         this.grid
                 .getColumn("delete")
                 .setRenderer(new ButtonRenderer(this::onDelete));
@@ -84,6 +85,11 @@ public class OrdersView extends VerticalLayout implements View {
         final int userId = Integer.parseInt(event.getParameters());
         getSession().setAttribute(SessionAttribute.USER_ID_ATTR, userId);
         this.orderService.getAll(userId).forEach(this.beanItemContainer::addBean);
+    }
+
+    private void onRowClick(ItemClickEvent e) {
+        getUI().getNavigator().navigateTo(ItemsView.VIEW_NAME + "/"
+                + this.beanItemContainer.getItem(e.getItemId()).getBean().getId());
     }
 
     private void onDelete(ClickableRenderer.RendererClickEvent e) {
