@@ -53,11 +53,24 @@ public class ProductsView extends VerticalLayout implements View {
                 return String.class;
             }
         });
+        this.propertyContainer.addGeneratedProperty("edit", new PropertyValueGenerator<String>() {
+            @Override
+            public String getValue(Item item, Object itemId, Object propertyId) {
+                return "Edit";
+            }
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
 
         this.grid = new Grid(this.propertyContainer);
         this.grid
                 .getColumn("delete")
                 .setRenderer(new ButtonRenderer(this::onDelete));
+        this.grid
+                .getColumn("edit")
+                .setRenderer(new ButtonRenderer(this::onEdit));
         addComponent(grid);
     }
 
@@ -75,6 +88,11 @@ public class ProductsView extends VerticalLayout implements View {
         final OrderItem user = this.beanItemContainer.getItem(e.getItemId()).getBean();
         this.productService.delete(user.getId());
         this.beanItemContainer.removeItem(e.getItemId());
+    }
+
+    private void onEdit(ClickableRenderer.RendererClickEvent e) {
+        final OrderItem product = this.beanItemContainer.getItem(e.getItemId()).getBean();
+        getUI().getNavigator().navigateTo(EditProductView.VIEW_NAME + "/" + product.getId());
     }
 
 }
