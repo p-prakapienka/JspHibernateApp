@@ -30,6 +30,8 @@ public class ItemsView extends VerticalLayout implements View {
     private GeneratedPropertyContainer propertyContainer;
     private Grid grid;
 
+    private Order order;
+
     @Autowired
     public ItemsView(OrderService orderService, ProductService productService) {
         this.orderService = orderService;
@@ -63,14 +65,17 @@ public class ItemsView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         final Integer userId = (Integer) getSession().getAttribute(SessionAttribute.USER_ID_ATTR);
         final int orderId = Integer.parseInt(event.getParameters());
-        final Order order = orderService.getWithItems(orderId, userId);
+        this.order = orderService.getWithItems(orderId, userId);
         this.beanItemContainer.removeAllItems();
         this.beanItemContainer.addAll(order.getOrderItems());
     }
 
 
     private void onDelete(ClickableRenderer.RendererClickEvent e) {
-        //TODO
+        final Integer userId = (Integer) getSession().getAttribute(SessionAttribute.USER_ID_ATTR);
+        final OrderItem item = this.beanItemContainer.getItem(e.getItemId()).getBean();
+        this.orderService.deleteItem(order.getId(), item.getId(), userId);
+        this.beanItemContainer.removeItem(e.getItemId());
     }
 
 }
